@@ -5,11 +5,13 @@ import random
 class NSGA2Utils:
 
     def __init__(self, problem, num_of_individuals=100,
-                 num_of_tour_particips=2, tournament_prob=0.9, crossover_param=2, mutation_param=5):
+                 num_of_tour_particips=2, crossover_prob=0.6, tournament_prob=0.9, 
+                 crossover_param=2, mutation_param=5):
 
         self.problem = problem
         self.num_of_individuals = num_of_individuals
         self.num_of_tour_particips = num_of_tour_particips
+        self.crossover_prob = crossover_prob
         self.tournament_prob = tournament_prob
         self.crossover_param = crossover_param
         self.mutation_param = mutation_param
@@ -59,9 +61,11 @@ class NSGA2Utils:
                 front[solutions_num - 1].crowding_distance = 10 ** 9
                 m_values = [individual.objectives[m] for individual in front]
                 scale = max(m_values) - min(m_values)
-                if scale == 0: scale = 1
+                if scale == 0: 
+                    scale = 1
                 for i in range(1, solutions_num - 1):
-                    front[i].crowding_distance += (front[i + 1].objectives[m] - front[i - 1].objectives[m]) / scale
+                    front[i].crowding_distance += (front[i + 1].objectives[m] - 
+                                                   front[i - 1].objectives[m]) / scale
 
     def crowding_operator(self, individual, other_individual):
         if (individual.rank < other_individual.rank) or \
@@ -89,16 +93,23 @@ class NSGA2Utils:
         return children
 
     def __crossover(self, individual1, individual2):
-        child1 = self.problem.generate_individual()
-        child2 = self.problem.generate_individual()
-        num_of_features = len(child1.features)
-        genes_indexes = range(num_of_features)
-        for i in genes_indexes:
-            beta = self.__get_beta()
-            x1 = (individual1.features[i] + individual2.features[i]) / 2
-            x2 = abs((individual1.features[i] - individual2.features[i]) / 2)
-            child1.features[i] = x1 + beta * x2
-            child2.features[i] = x1 - beta * x2
+        # child1 = self.problem.generate_individual()
+        # child2 = self.problem.generate_individual()
+        # num_of_features = len(child1.features)
+        # genes_indexes = range(num_of_features)
+        # for i in genes_indexes:
+        #     beta = self.__get_beta()
+        #     x1 = (individual1.features[i] + individual2.features[i]) / 2
+        #     x2 = abs((individual1.features[i] - individual2.features[i]) / 2)
+        #     child1.features[i] = x1 + beta * x2
+        #     child2.features[i] = x1 - beta * x2
+        # child1.crossover()
+        child1 = individual1
+        child2 = individual2
+        if (self.__choose_with_prob(self.crossover_prob)):
+            child1 = individual1.crossover(individual2)
+            child2 = individual2.crossover(individual1)
+            
         return child1, child2
 
     def __get_beta(self):
@@ -108,17 +119,19 @@ class NSGA2Utils:
         return (2 * (1 - u)) ** (-1 / (self.crossover_param + 1))
 
     def __mutate(self, child):
-        num_of_features = len(child.features)
-        for gene in range(num_of_features):
-            u, delta = self.__get_delta()
-            if u < 0.5:
-                child.features[gene] += delta * (child.features[gene] - self.problem.variables_range[gene][0])
-            else:
-                child.features[gene] += delta * (self.problem.variables_range[gene][1] - child.features[gene])
-            if child.features[gene] < self.problem.variables_range[gene][0]:
-                child.features[gene] = self.problem.variables_range[gene][0]
-            elif child.features[gene] > self.problem.variables_range[gene][1]:
-                child.features[gene] = self.problem.variables_range[gene][1]
+        # num_of_features = len(child.features)
+        # for gene in range(num_of_features):
+        #     u, delta = self.__get_delta()
+        #     if u < 0.5:
+        #         child.features[gene] += delta * (child.features[gene] - self.problem.variables_range[gene][0])
+        #     else:
+        #         child.features[gene] += delta * (self.problem.variables_range[gene][1] - child.features[gene])
+        #     if child.features[gene] < self.problem.variables_range[gene][0]:
+        #         child.features[gene] = self.problem.variables_range[gene][0]
+        #     elif child.features[gene] > self.problem.variables_range[gene][1]:
+        #         child.features[gene] = self.problem.variables_range[gene][1]
+        if (self.__choose_with_prob(self.tournament_prob)):
+            child.mutate()
 
     def __get_delta(self):
         u = random.random()
@@ -131,7 +144,8 @@ class NSGA2Utils:
         best = None
         for participant in participants:
             if best is None or (
-                    self.crowding_operator(participant, best) == 1 and self.__choose_with_prob(self.tournament_prob)):
+                    self.crowding_operator(participant, best) == 1 and 
+                    self.__choose_with_prob(self.tournament_prob)):
                 best = participant
 
         return best

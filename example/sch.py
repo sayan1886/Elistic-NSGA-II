@@ -1,5 +1,5 @@
-from nsga2.problem import Problem
 from nsga2.evolution import Evolution
+from nsga2.problem import Problem
 import matplotlib.pyplot as plt
 
 
@@ -12,7 +12,7 @@ def f2(x):
 
 
 problem = Problem(num_of_variables=1, objectives=[f1, f2], variables_range=[(-55, 55)])
-evo = Evolution(problem)
+evo = Evolution(problem, num_of_generations=50)
 evol = evo.evolve()
 func = [i.objectives for i in evol]
 

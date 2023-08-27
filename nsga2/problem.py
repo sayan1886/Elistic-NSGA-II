@@ -1,15 +1,17 @@
 from nsga2.individual import Individual
-import random
-
 
 class Problem:
 
-    def __init__(self, objectives, num_of_variables, variables_range, expand=True, same_range=False):
+    def __init__(self, objectives, num_of_variables, variables_range, 
+                 expand=True, same_range=False,n_chromosome=8, n_gene=1):
         self.num_of_objectives = len(objectives)
         self.num_of_variables = num_of_variables
         self.objectives = objectives
         self.expand = expand
         self.variables_range = []
+        self.n_chromosome = n_chromosome
+        self.n_gene = n_gene
+        self.chromosome = None
         if same_range:
             for _ in range(num_of_variables):
                 self.variables_range.append(variables_range[0])
@@ -17,12 +19,13 @@ class Problem:
             self.variables_range = variables_range
 
     def generate_individual(self):
-        individual = Individual()
-        individual.features = [random.uniform(*x) for x in self.variables_range]
+        individual = Individual(self.variables_range, self.n_chromosome, self.n_gene)
+        # individual.features = [random.uniform(*x) for x in self.variables_range]
+        # individual.features = individual.corresponding_value()
         return individual
 
     def calculate_objectives(self, individual):
         if self.expand:
-            individual.objectives = [f(*individual.features) for f in self.objectives]
+            individual.objectives = [f(*individual.features()) for f in self.objectives]
         else:
-            individual.objectives = [f(individual.features) for f in self.objectives]
+            individual.objectives = [f(individual.features()) for f in self.objectives]

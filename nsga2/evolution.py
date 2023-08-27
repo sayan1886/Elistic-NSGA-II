@@ -26,17 +26,25 @@ class Evolution:
             self.utils.fast_nondominated_sort(self.population)
             new_population = Population()
             front_num = 0
-            while len(new_population) + len(self.population.fronts[front_num]) <= self.num_of_individuals:
+            try:
+                while (len(new_population) + len(self.population.fronts[front_num]) 
+                    <= self.num_of_individuals):
+                    self.utils.calculate_crowding_distance(self.population.fronts[front_num])
+                    new_population.extend(self.population.fronts[front_num])
+                    front_num += 1
+
                 self.utils.calculate_crowding_distance(self.population.fronts[front_num])
-                new_population.extend(self.population.fronts[front_num])
-                front_num += 1
-            self.utils.calculate_crowding_distance(self.population.fronts[front_num])
-            self.population.fronts[front_num].sort(key=lambda individual: individual.crowding_distance, reverse=True)
-            new_population.extend(self.population.fronts[front_num][0:self.num_of_individuals - len(new_population)])
-            returned_population = self.population
-            self.population = new_population
-            self.utils.fast_nondominated_sort(self.population)
-            for front in self.population.fronts:
-                self.utils.calculate_crowding_distance(front)
-            children = self.utils.create_children(self.population)
+                self.population.fronts[front_num].sort(key=lambda individual: 
+                    individual.crowding_distance, reverse=True)
+                new_population.extend(self.population.fronts[front_num][0:self.num_of_individuals 
+                                                                    - len(new_population)])
+                returned_population = self.population
+                self.population = new_population
+                self.utils.fast_nondominated_sort(self.population)
+                for front in self.population.fronts:
+                    self.utils.calculate_crowding_distance(front)
+                children = self.utils.create_children(self.population)
+            except IndexError:
+                print("Erorr index")
+            continue
         return returned_population.fronts[0]
