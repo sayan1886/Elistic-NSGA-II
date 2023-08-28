@@ -1,0 +1,33 @@
+{
+    "crossover":{
+        "crossover_probabilty": 0.8,
+        "crossover_type" : "single"
+    },
+    "mutation" :{
+        "mutation_probabilty": 0.1,
+        "mutation_type": "bit-flip",
+        "participant_bits": 2
+    },
+    "objective": {
+        "num_of_objective" : 2,
+        "objective_type": "min",
+        "__expand__": "If true, input of functions are treated as list of respective variables (e.x. `f(x,y,z)`), otherwise they are treated as a vector (e.x. `f([x1, x2, x3])`)",
+        "expand" : true
+    },
+    "range": {
+        "min": 0,
+        "max": 2
+    },
+    "selection": {
+        "selection_type": "tournament",
+        "tournament_probabilty": 1.0,
+        "participants": "2"
+    },
+    "__num_of_chromosomes__": "num_of_chromosomes denotes number of random binary string length, which will decoded to the actual value",
+    "num_of_chromosomes": 8,
+    "__num_of_gene__": "num_of_gene denotes number of variable in the objective function",
+    "num_of_gene" : 1,
+    "num_of_generations": 10,
+    "num_of_individuals": 100,
+    "plot_type": "pareto-front"
+}

@@ -1,6 +1,6 @@
-from nsga2.core.population import Population
 import random
 
+from nsga2.core.population import Population
 
 class NSGA2Utils:
 

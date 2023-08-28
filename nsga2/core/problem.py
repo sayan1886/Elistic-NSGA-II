@@ -3,7 +3,7 @@ from nsga2.core.individual import Individual
 class Problem:
 
     def __init__(self, objectives, num_of_variables, variables_range, 
-                 expand=True, same_range=False,n_chromosome=8):
+                 expand=True, same_range=False, n_chromosome=8):
         self.num_of_objectives = len(objectives)
         self.num_of_variables = num_of_variables
         self.objectives = objectives
@@ -20,8 +20,6 @@ class Problem:
 
     def generate_individual(self):
         individual = Individual(self.variables_range, self.n_chromosome, self.n_gene)
-        # individual.features = [random.uniform(*x) for x in self.variables_range]
-        # individual.features = individual.corresponding_value()
         return individual
 
     def calculate_objectives(self, individual):
