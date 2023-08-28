@@ -1,5 +1,5 @@
-from nsga2.utils import NSGA2Utils
-from nsga2.population import Population
+from nsga2.core.utils import NSGA2Utils
+from nsga2.core.population import Population
 from tqdm import tqdm
 
 class Evolution:

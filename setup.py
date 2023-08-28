@@ -9,13 +9,13 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='nsga-2',
-    version='1.2.0',
-    description='A NSGA-II implementation',
+    name='elistc-nsga-2',
+    version='1.3.0',
+    description='A NSGA-II implementation using binary chromosome',
     long_description='A NSGA-II implementation',
-    url='https://github.com/baopng/NSGA-II',
-    author='Pham Ngo Gia Bao, Tram Loi Quan, Quan Thanh Tho, Akhil Garg',
-    author_email='ngogiabaopham@gmail.com',
+    url='https://github.com/sayan1886/Elistic-NSGA-II',
+    author='Sayan Chatterjee',
+    author_email='sayan1886@gmail.com',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     keywords='nsga2 nsga ga multi-objective',
     license='MIT',

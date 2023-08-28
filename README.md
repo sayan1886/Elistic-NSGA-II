@@ -1,7 +1,9 @@
 # NSGA-II Python
+
 Implementation of NSGA-II algorithm in form of a python library.
 
 This implementation can be used to solve multivariate (more than one dimensions) multi-objective optimization problem. The number of objectives and dimensions are not limited. Some critical operators are chosen as: Binary Tournament Selection, Simulated Binary Crossover and Polynomial Mutation. Note that we didn't start everything from scratch but modified the source code from [wreszelewski/nsga2](https://github.com/wreszelewski/nsga2). We are very thankful to Wojciech Reszelewski and Kamil Mielnik - authors of this original version. The following items are modified:
+
 * Fix the crowding distance formula.
 * Modify some parts of the code to apply to any number of objectives and dimensions.
 * Modify the selection operator to Tournament Selection.
@@ -9,6 +11,7 @@ This implementation can be used to solve multivariate (more than one dimensions)
 * Change the mutation operator to Polynomial Mutation.
 
 ## Usage
+
 1. Class **Problem**
 
     Defined in _problem.py_.
@@ -31,7 +34,7 @@ This implementation can be used to solve multivariate (more than one dimensions)
     1. Arguments:
         * `problem`: An object of class Problem.
         * `num_of_generations`: An integer, default = 1000, representing the number of generations.
-        * `num_of_individuals`: An integer, default = 100, representing the number of individuals, a.k.a the population size.    
+        * `num_of_individuals`: An integer, default = 100, representing the number of individuals, a.k.a the population size.
         * `num_of_tour_particips`: An integer, default = 2, representing the number of participants in tournament selection operator.
         * `tournament_prob`: A real number, default = 0.9, representing the probability used in tournament selection.
         * `crossover_param`: An integer, default = 2, representing the parameter used in simulated binary crossover.
@@ -41,7 +44,8 @@ This implementation can be used to solve multivariate (more than one dimensions)
             * Arguments: None.
             * Return: List of the best individuals in the last generation.
 
-## Example
+## Example Problems
+
 Examples about SCH problem and KUR problem are showed in _sch.py_ and _kur.py_.
 
 In addition, the results of some popular multi-objective problems is demonstrated as belows:
@@ -53,9 +57,5 @@ In addition, the results of some popular multi-objective problems is demonstrate
 * VIENNET ![VIENNET](pictures/VIENNET.png)
 
 ## Authors
-* Pham Ngo Gia Bao, Ho Chi Minh University of Technology
-* Tram Loi Quan, Ho Chi Minh University of Technology
-* A/Prof. Quan Thanh Tho, Ho Chi Minh University of Technology (advisor)
-* A/Prof. Akhil Garg, Shantou University (advisor)
 
-We are very thankful to A/Prof. Tho and A/Prof. Akhil for helping and guiding us to finish this work.
+* Sayan Chatterjee

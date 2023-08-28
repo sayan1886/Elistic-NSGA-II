@@ -1,4 +1,4 @@
-from nsga2.population import Population
+from nsga2.core.population import Population
 import random
 
 
