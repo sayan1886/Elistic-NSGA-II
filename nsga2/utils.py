@@ -5,16 +5,13 @@ import random
 class NSGA2Utils:
 
     def __init__(self, problem, num_of_individuals=100,
-                 num_of_tour_particips=2, crossover_prob=0.6, tournament_prob=0.9, 
-                 crossover_param=2, mutation_param=5):
+                 num_of_tour_particips=2, crossover_prob=0.6, tournament_prob=0.9):
 
         self.problem = problem
         self.num_of_individuals = num_of_individuals
         self.num_of_tour_particips = num_of_tour_particips
         self.crossover_prob = crossover_prob
         self.tournament_prob = tournament_prob
-        self.crossover_param = crossover_param
-        self.mutation_param = mutation_param
 
     def create_initial_population(self):
         population = Population()
@@ -70,7 +67,8 @@ class NSGA2Utils:
     def crowding_operator(self, individual, other_individual):
         if (individual.rank < other_individual.rank) or \
                 ((individual.rank == other_individual.rank) and (
-                        individual.crowding_distance > other_individual.crowding_distance)):
+                        individual.crowding_distance > 
+                        other_individual.crowding_distance)):
             return 1
         else:
             return -1
@@ -93,17 +91,6 @@ class NSGA2Utils:
         return children
 
     def __crossover(self, individual1, individual2):
-        # child1 = self.problem.generate_individual()
-        # child2 = self.problem.generate_individual()
-        # num_of_features = len(child1.features)
-        # genes_indexes = range(num_of_features)
-        # for i in genes_indexes:
-        #     beta = self.__get_beta()
-        #     x1 = (individual1.features[i] + individual2.features[i]) / 2
-        #     x2 = abs((individual1.features[i] - individual2.features[i]) / 2)
-        #     child1.features[i] = x1 + beta * x2
-        #     child2.features[i] = x1 - beta * x2
-        # child1.crossover()
         child1 = individual1
         child2 = individual2
         if (self.__choose_with_prob(self.crossover_prob)):
@@ -112,32 +99,9 @@ class NSGA2Utils:
             
         return child1, child2
 
-    def __get_beta(self):
-        u = random.random()
-        if u <= 0.5:
-            return (2 * u) ** (1 / (self.crossover_param + 1))
-        return (2 * (1 - u)) ** (-1 / (self.crossover_param + 1))
-
     def __mutate(self, child):
-        # num_of_features = len(child.features)
-        # for gene in range(num_of_features):
-        #     u, delta = self.__get_delta()
-        #     if u < 0.5:
-        #         child.features[gene] += delta * (child.features[gene] - self.problem.variables_range[gene][0])
-        #     else:
-        #         child.features[gene] += delta * (self.problem.variables_range[gene][1] - child.features[gene])
-        #     if child.features[gene] < self.problem.variables_range[gene][0]:
-        #         child.features[gene] = self.problem.variables_range[gene][0]
-        #     elif child.features[gene] > self.problem.variables_range[gene][1]:
-        #         child.features[gene] = self.problem.variables_range[gene][1]
         if (self.__choose_with_prob(self.tournament_prob)):
             child.mutate()
-
-    def __get_delta(self):
-        u = random.random()
-        if u < 0.5:
-            return u, (2 * u) ** (1 / (self.mutation_param + 1)) - 1
-        return u, 1 - (2 * (1 - u)) ** (1 / (self.mutation_param + 1))
 
     def __tournament(self, population):
         participants = random.sample(population.population, self.num_of_tour_particips)
