@@ -5,12 +5,14 @@ import random
 class NSGA2Utils:
 
     def __init__(self, problem, num_of_individuals=100,
-                 num_of_tour_particips=2, crossover_prob=0.6, tournament_prob=0.9):
+                 num_of_tour_particips=2, crossover_prob=0.6, mutation_prob=0.1,
+                 tournament_prob=0.9):
 
         self.problem = problem
         self.num_of_individuals = num_of_individuals
         self.num_of_tour_particips = num_of_tour_particips
         self.crossover_prob = crossover_prob
+        self.mutation_prob = mutation_prob
         self.tournament_prob = tournament_prob
 
     def create_initial_population(self):
@@ -100,7 +102,7 @@ class NSGA2Utils:
         return child1, child2
 
     def __mutate(self, child):
-        if (self.__choose_with_prob(self.tournament_prob)):
+        if (self.__choose_with_prob(self.mutation_prob)):
             child.mutate()
 
     def __tournament(self, population):

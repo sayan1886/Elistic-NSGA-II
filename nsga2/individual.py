@@ -3,7 +3,7 @@ import random
 class Individual(object):
 
     def __init__(self, variables_range, n_chromosome=8, n_gene=1, chromosome = None,
-                 crossover_type="single", mutation_type="bit_flip"):
+                 crossover_type="single", mutation_type="bit_swap"):
         self.variables_range = variables_range
         self.n_chromosome = n_chromosome
         self.n_gene = n_gene
