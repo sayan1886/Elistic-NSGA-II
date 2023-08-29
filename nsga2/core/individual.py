@@ -97,8 +97,8 @@ class Individual(object):
         and_condition = True
         or_condition = False
         for first, second in zip(self.objectives, other_individual.objectives):
-            and_condition = and_condition and first <= second
-            or_condition = or_condition or first < second
+            and_condition = and_condition and abs(first) <= abs(second)
+            or_condition = or_condition or abs(first) < abs(second)
         return (and_condition and or_condition)
     
     # produce a new offspring from 2 parents
