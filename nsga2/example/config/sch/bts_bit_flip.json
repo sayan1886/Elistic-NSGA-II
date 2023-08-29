@@ -1,11 +1,11 @@
 {
     "crossover":{
-        "crossover_probabilty": 0.8,
+        "crossover_probabilty": 0.6,
         "crossover_type" : "single"
     },
     "mutation" :{
         "mutation_probabilty": 0.1,
-        "mutation_type": "bit-flip",
+        "mutation_type": "bit-swap",
         "participant_bits": 2
     },
     "objective": {
@@ -15,19 +15,19 @@
         "expand" : true
     },
     "range": {
-        "min": 0,
-        "max": 2
+        "min": -10,
+        "max": 10
     },
     "selection": {
         "selection_type": "tournament",
-        "tournament_probabilty": 1.0,
+        "tournament_probabilty": 0.9,
         "participants": "2"
     },
     "__num_of_chromosomes__": "num_of_chromosomes denotes number of random binary string length, which will decoded to the actual value",
-    "num_of_chromosomes": 8,
+    "num_of_chromosomes": 32,
     "__num_of_gene__": "num_of_gene denotes number of variable in the objective function",
     "num_of_gene" : 1,
-    "num_of_generations": 10,
+    "num_of_generations": 100,
     "num_of_individuals": 100,
     "plot_type": "pareto-front"
 }

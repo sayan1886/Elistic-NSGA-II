@@ -1,6 +1,6 @@
 {
     "crossover":{
-        "crossover_probabilty": 0.8,
+        "crossover_probabilty": 0.9,
         "crossover_type" : "single"
     },
     "mutation" :{
@@ -24,10 +24,10 @@
         "participants": "2"
     },
     "__num_of_chromosomes__": "num_of_chromosomes denotes number of random binary string length, which will decoded to the actual value",
-    "num_of_chromosomes": 16,
+    "num_of_chromosomes": 32,
     "__num_of_gene__": "num_of_gene denotes number of variable in the objective function",
     "num_of_gene" : 3,
-    "num_of_generations": 1000,
-    "num_of_individuals": 150,
+    "num_of_generations": 500,
+    "num_of_individuals": 200,
     "plot_type": "pareto-front"
 }

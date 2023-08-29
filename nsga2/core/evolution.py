@@ -49,6 +49,8 @@ class Evolution:
                 for front in self.population.fronts:
                     self.utils.calculate_crowding_distance(front)
                 children = self.utils.create_children(self.population)
+                if children is None:
+                    return returned_population.fronts[0]
             except IndexError:
                 pass
             continue

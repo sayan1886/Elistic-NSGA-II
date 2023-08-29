@@ -80,8 +80,13 @@ class NSGA2Utils:
         while len(children) < len(population):
             parent1 = self.__tournament(population)
             parent2 = parent1
+            counter = 0 
             while parent1 == parent2:
                 parent2 = self.__tournament(population)
+                counter += 1
+                # TODO: check for anomaly; return none children 
+                if counter == len(population):
+                    return None
             child1, child2 = self.__crossover(parent1, parent2)
             self.__mutate(child1)
             self.__mutate(child2)
