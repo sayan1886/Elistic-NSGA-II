@@ -25,6 +25,16 @@ class Individual(object):
             return self.features() == other.features()
         return False
     
+    def __hash__(self):
+        return int(str(self), 2)
+    
+    def __str__(self):
+        chromosome = []
+        for i in range(self.n_gene):
+            gene = ''.join(str(x) for x in self.chromosome[i])
+            chromosome.append(gene)
+        return ''.join(str(x) for x in chromosome)
+    
      # genarate a randome chromosome with number of gene
     def __generate_random_chromosome(self):
         chromosome = [0] * self.n_gene
@@ -34,9 +44,14 @@ class Individual(object):
     
     # genarate a randome gene main unit of chromosome
     def __generate_random_gene(self):
-        gene = [0] * self.n_chromosome
-        for i in range(self.n_chromosome):
-            gene[i] = random.randint(0,1)
+        # Generate a random number with n bits
+        random_bytes = random.getrandbits(self.n_chromosome)
+        # Convert the number to binary
+        binary_string = format(random_bytes, '0b')
+        while len(binary_string) < self.n_chromosome:
+            binary_string = "0" + binary_string
+        # binary string to array of string
+        gene = [str(d) for d in binary_string[0:]]
         return gene
     
     # encode chromosome will return array of integer 
@@ -118,53 +133,63 @@ class Individual(object):
     # will consider to breed single offspring gene from parent gene
     def __single_point_crossover(self, other):
         offspring_1 = [0] * self.n_gene
+        offspring_2 = [0] * self.n_gene
         for i in range(self.n_gene):
-            offspring_1[i] = self.__single_point_gene_crossover(
+            offspring_1[i], offspring_2[i] = self.__single_point_gene_crossover(
                 self_gene=self.chromosome[i], other_gene=other.chromosome[i])
-        return Individual(self.variables_range, self.n_chromosome, self.n_gene, 
-                          offspring_1, self.crossover_type, self.mutation_type) 
+
+        individual_1 = Individual(self.variables_range, self.n_chromosome, self.n_gene, 
+                          offspring_1, self.crossover_type, self.mutation_type)
+        individual_2 = Individual(self.variables_range, self.n_chromosome, self.n_gene, 
+                          offspring_2, self.crossover_type, self.mutation_type)
+        return individual_1, individual_2 
     
     # crossover to creat one offspring gene from two parent gene
     # using single point crossover return new offspring(s) gene
     def __single_point_gene_crossover(self,self_gene, other_gene):
         offspring_1 = [0] * self.n_chromosome
-        # offspring_2 = [0] * self.n_chromosome
+        offspring_2 = [0] * self.n_chromosome
         crossover_point = random.randint(0, self.n_chromosome - 1)
         for i in range(self.n_chromosome):
             if (i <= crossover_point):
                 offspring_1[i] = self_gene[i]
-                # offspring_2[i] = other[i]
+                offspring_2[i] = other_gene[i]
             else:
                 offspring_1[i] = other_gene[i]
-                # offspring_2[i] = other.chromosome[i]
-        return offspring_1 #, offspring_2
+                offspring_2[i] = self_gene[i]
+        return offspring_1 , offspring_2
     
     # crossover to creat one offspring from two parents using uniform crossover
     # create a random mask and based on mask[i] value will be
     # will consider to breed single offspring from parent
     def __uniform_crossover(self, other):
         offspring_1 = [0] * self.n_gene
+        offspring_2 = [0] * self.n_chromosome
         for i in range(self.n_gene):
-            offspring_1[i] = self.__uniform_gene_crossover(
+            offspring_1[i], offspring_2[i] = self.__uniform_gene_crossover(
                 self_gene=self.chromosome[i], other_gene=other.chromosome[i])
-        return Individual(self.variables_range, self.n_chromosome, self.n_gene, 
+        
+        individual_1 = Individual(self.variables_range, self.n_chromosome, self.n_gene, 
                           offspring_1, self.crossover_type, self.mutation_type)
+        individual_2 = Individual(self.variables_range, self.n_chromosome, self.n_gene, 
+                          offspring_2, self.crossover_type, self.mutation_type)
+        return individual_1, individual_2 
     
     # crossover to creat one offspring from two parents using uniform crossover
     # create a random mask and based on mask[i] value will be
     # will consider to breed single offspring gene from parent gene
     def __uniform_gene_crossover(self,self_gene, other_gene):
         offspring_1 = [0] * self.n_chromosome
-        # offspring_2 = [0] * self.n_chromosome
+        offspring_2 = [0] * self.n_chromosome
         mask = self.__generate_random_gene()
         for i in range(self.n_chromosome):
             if (mask[i] == 0):
                 offspring_1[i] = self_gene[i]
-                # offspring_2[i] = other.chromosome[i]
+                offspring_2[i] = other_gene[i]
             else:
                 offspring_1[i] = other_gene[i]
-                # offspring_2[i] = self.chromosome[i]
-        return offspring_1 #, offspring_2
+                offspring_2[i] = self_gene[i]
+        return offspring_1 , offspring_2
     
     # mutate the individual
     def mutate(self):
@@ -226,3 +251,12 @@ class Individual(object):
             offspring[swap_positions[i+1]] = bit
             i = i + 2
         return offspring
+
+    # 
+    def is_unique(self, population):
+        unique = True
+        for i in range(len(population)):
+            if self == population[i]:
+                unique = False
+                break
+        return unique

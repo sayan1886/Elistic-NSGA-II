@@ -17,10 +17,11 @@ class NSGA2Utils:
 
     def create_initial_population(self):
         population = Population()
-        for _ in range(self.num_of_individuals):
+        while self.num_of_individuals != len(population):
             individual = self.problem.generate_individual()
             self.problem.calculate_objectives(individual)
-            population.append(individual)
+            if individual.is_unique(population.population):
+                population.append(individual)
         return population
 
     def fast_nondominated_sort(self, population):
@@ -67,7 +68,13 @@ class NSGA2Utils:
                                                    front[i - 1].objectives[m]) / scale
 
     def crowding_operator(self, individual, other_individual):
-        if (individual.rank < other_individual.rank) or \
+        if individual.rank is None or other_individual.rank is None:
+            return 1
+        elif individual.rank is None:
+            return -1
+        elif other_individual.rank is None:
+            return 1
+        elif (individual.rank < other_individual.rank) or \
                 ((individual.rank == other_individual.rank) and (
                         abs(individual.crowding_distance) > 
                         abs(other_individual.crowding_distance))):
@@ -78,15 +85,7 @@ class NSGA2Utils:
     def create_children(self, population):
         children = []
         while len(children) < len(population):
-            parent1 = self.__tournament(population)
-            parent2 = parent1
-            counter = 0 
-            while parent1 == parent2:
-                parent2 = self.__tournament(population)
-                counter += 1
-                # TODO: check for anomaly; return none children 
-                if counter == len(population):
-                    return None
+            parent1, parent2 = self.__selection(population)
             child1, child2 = self.__crossover(parent1, parent2)
             self.__mutate(child1)
             self.__mutate(child2)
@@ -101,24 +100,33 @@ class NSGA2Utils:
         child1 = individual1
         child2 = individual2
         if (self.__choose_with_prob(self.crossover_prob)):
-            child1 = individual1.crossover(individual2)
-            child2 = individual2.crossover(individual1)
-            
+            child1, child2 = individual1.crossover(individual2)            
         return child1, child2
 
     def __mutate(self, child):
         if (self.__choose_with_prob(self.mutation_prob)):
             child.mutate()
-
+            
+    def __selection(self, population):
+        parent1 = self.__tournament(population)
+        parent2 = parent1
+        retries = 0
+        while parent1 == parent2 and retries <= 5:
+            parent2 = self.__tournament(population)
+            retries += 1
+        return parent1, parent2
+    
     def __tournament(self, population):
-        participants = random.sample(population.population, self.num_of_tour_particips)
+        unique_population = list(population.unique_population())
+        if len(unique_population) < self.num_of_tour_particips:
+            return unique_population[0]
+        participants = random.sample(unique_population, self.num_of_tour_particips)
         best = None
-        for participant in participants:
+        for participant  in participants:
             if best is None or (
                     self.crowding_operator(participant, best) == 1 and 
                     self.__choose_with_prob(self.tournament_prob)):
                 best = participant
-
         return best
 
     def __choose_with_prob(self, prob):
