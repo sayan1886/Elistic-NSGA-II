@@ -56,10 +56,10 @@ class NSGA2Utils:
                 individual.crowding_distance = 0
 
             for m in range(len(front[0].objectives)):
-                front.sort(key=lambda individual: abs(individual.objectives[m]))
+                front.sort(key=lambda individual: individual.objectives[m])
                 front[0].crowding_distance = 10 ** 9
                 front[solutions_num - 1].crowding_distance = 10 ** 9
-                m_values = [abs(individual.objectives[m]) for individual in front]
+                m_values = [individual.objectives[m] for individual in front]
                 scale = max(m_values) - min(m_values)
                 if scale == 0: 
                     scale = 1
@@ -76,8 +76,8 @@ class NSGA2Utils:
             return 1
         elif (individual.rank < other_individual.rank) or \
                 ((individual.rank == other_individual.rank) and (
-                        abs(individual.crowding_distance) > 
-                        abs(other_individual.crowding_distance))):
+                        individual.crowding_distance > 
+                        other_individual.crowding_distance)):
             return 1
         else:
             return -1

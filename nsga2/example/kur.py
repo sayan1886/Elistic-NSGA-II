@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 from nsga2.example.config import config
 from nsga2.core.problem import Problem
@@ -12,14 +13,14 @@ from nsga2.core.evolution import Evolution
 def f1(x):
     s = 0
     for i in range(len(x) - 1):
-        s += -10 * math.exp(-0.2 * math.sqrt(x[i] ** 2 + x[i + 1] ** 2))
+        s += -10 * np.exp(-0.2 * (np.sqrt(x[i] ** 2 + x[i + 1] ** 2)))
     return s
 
 
 def f2(x):
     s = 0
     for i in range(len(x)):
-        s += abs(x[i]) ** 0.8 + 5 * math.sin(x[i] ** 3)
+        s += (np.abs(x[i]) ** 0.8) + (5 * np.sin(x[i] ** 3))
     return s
 
 if __name__ == "__main__":

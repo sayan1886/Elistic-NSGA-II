@@ -2,29 +2,26 @@ import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 from nsga2.example.config import config
 from nsga2.core.evolution import Evolution
 from nsga2.core.problem import Problem
 
-
+# f1(x) = x
 def f1(x):
     return x[0]
 
+# f2(x) = g(x) * [1 - (x1/g(x) ^ 0.5)] , x1 = 0, xi = 0, i = 2.....30
 def f2(x):
     g_x = g(x)
-    f2_x = g_x * (1 - (x[0] / g_x) ** 0.5)
+    f2_x = g_x * (1 - np.sqrt(f1(x) / g_x))
     return f2_x
 
+# g(x) = 1 + 9 * sum(xi) / (n - 1), i = 2, ...., n, n = 30
 def g(x):
-    g_x = 1 + 9 * (sum(x[1:len(x)]) / len(x) - 1)
+    g_x = 1 + 9 * np.sum(x) / len(x) - 1
     return g_x
-
-def sum(x):
-    sum = 0
-    for i in range(len(x)):
-        sum += x[i]
-    return sum
 
 if __name__ == "__main__":
     executing_file_path = sys.argv[0]

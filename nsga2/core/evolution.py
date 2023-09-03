@@ -40,7 +40,7 @@ class Evolution:
 
                 self.utils.calculate_crowding_distance(self.population.fronts[front_num])
                 self.population.fronts[front_num].sort(key=lambda individual: 
-                    abs(individual.crowding_distance), reverse=True)
+                    individual.crowding_distance, reverse=True)
                 new_population.extend(self.population.fronts[front_num][0:self.num_of_individuals 
                                                                 - len(new_population)])
                 returned_population = self.population
