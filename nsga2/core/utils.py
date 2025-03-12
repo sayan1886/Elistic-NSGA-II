@@ -24,7 +24,7 @@ class NSGA2Utils:
                 population.append(individual)
         return population
 
-    def fast_nondominated_sort(self, population):
+    def fast_non_dominated_sort(self, population):
         population.fronts = [[]]
         for individual in population:
             individual.domination_count = 0

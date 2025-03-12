@@ -1,10 +1,10 @@
 {
     "crossover":{
-        "crossover_probabilty": 0.8,
+        "crossover_probability": 0.8,
         "crossover_type" : "single"
     },
     "mutation" :{
-        "mutation_probabilty": 0.1,
+        "mutation_probability": 0.1,
         "mutation_type": "bit-swap",
         "participant_bits": 2
     },
@@ -20,7 +20,7 @@
     },
     "selection": {
         "selection_type": "tournament",
-        "tournament_probabilty": 1.0,
+        "tournament_probability": 1.0,
         "participants": "2"
     },
     "__num_of_chromosomes__": "num_of_chromosomes denotes number of random binary string length, which will decoded to the actual value",
