@@ -21,14 +21,14 @@ class Evolution:
 
     def evolve(self):
         self.population = self.utils.create_initial_population()
-        self.utils.fast_nondominated_sort(self.population)
+        self.utils.fast_non_dominated_sort(self.population)
         for front in self.population.fronts:
             self.utils.calculate_crowding_distance(front)
         children = self.utils.create_children(self.population)
         returned_population = None
         for i in tqdm(range(self.num_of_generations)):
             self.population.extend(children)
-            self.utils.fast_nondominated_sort(self.population)
+            self.utils.fast_non_dominated_sort(self.population)
             new_population = Population()
             front_num = 0
             try:
@@ -45,7 +45,7 @@ class Evolution:
                                                                 - len(new_population)])
                 returned_population = self.population
                 self.population = new_population
-                self.utils.fast_nondominated_sort(self.population)
+                self.utils.fast_non_dominated_sort(self.population)
                 for front in self.population.fronts:
                     self.utils.calculate_crowding_distance(front)
                 children = self.utils.create_children(self.population)

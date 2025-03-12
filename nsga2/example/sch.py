@@ -1,9 +1,9 @@
-import sys
-from pathlib import Path
+# import sys
+# from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-from nsga2.example.config import config
+# from nsga2.example.config import config
 from nsga2.core.evolution import Evolution
 from nsga2.core.problem import Problem
 
@@ -15,12 +15,12 @@ def f1(x):
 def f2(x):
     return (x - 2) ** 2
 
-if __name__ == "__main__":
-    executing_file_path = sys.argv[0]
-    example_name = Path(executing_file_path).stem
-    configs = config.get_config(example_name)
-    schConfig = configs[0]
-    print(schConfig)
+def sch(schConfig):
+    # executing_file_path = sys.argv[0]
+    # example_name = Path(executing_file_path).stem
+    # schConfig = config.get_config(example_name)
+    # # schConfig = configs[0]
+    # print(schConfig)
     
     problem = Problem(objectives=[f1, f2], 
                       num_of_variables=schConfig.num_of_gene, 
@@ -33,11 +33,11 @@ if __name__ == "__main__":
                     num_of_generations=schConfig.num_of_generations, 
                     num_of_individuals=schConfig.num_of_individuals, 
                     num_of_tour_particips=schConfig.selection.participants,
-                    tournament_prob=schConfig.selection.tournament_probabilty,
-                    crossover_prob=schConfig.crossover.crossover_probabilty,
-                    mutation_prob=schConfig.mutation.mutation_probabilty)
-    evol = evo.evolve()
-    func = [i.objectives for i in evol]
+                    tournament_prob=schConfig.selection.tournament_probability,
+                    crossover_prob=schConfig.crossover.crossover_probability,
+                    mutation_prob=schConfig.mutation.mutation_probability)
+    evolution = evo.evolve()
+    func = [i.objectives for i in evolution]
 
     function1 = [i[0] for i in func]
     function2 = [i[1] for i in func]

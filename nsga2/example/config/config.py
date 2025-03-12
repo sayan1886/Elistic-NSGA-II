@@ -5,21 +5,21 @@ import json
     
 @dataclass
 class Crossover:
-    crossover_probabilty: float
+    crossover_probability: float
     crossover_type: str
 
     @staticmethod
     def from_dict(obj: Any) -> 'Crossover':
-        _crossover_probabilty = float(obj.get("crossover_probabilty")) \
-                    if obj.get("crossover_probabilty") is not None else 0.6
+        _crossover_probability = float(obj.get("crossover_probability")) \
+                    if obj.get("crossover_probability") is not None else 0.6
         _crossover_type = str(obj.get("crossover_type")) \
                     if obj.get("crossover_type") is not None else "single"
-        return Crossover(crossover_probabilty=_crossover_probabilty,
+        return Crossover(crossover_probability=_crossover_probability,
                          crossover_type=_crossover_type)
     
 @dataclass
 class Mutation:
-    mutation_probabilty: float
+    mutation_probability: float
     mutation_type: str
     participant_bits: int
 
@@ -29,11 +29,11 @@ class Mutation:
                     if obj.get("mutation_type") is not None else "bit-flip"
         _participant_bits = int(obj.get("participant_bits")) \
                     if obj.get("participant_bits") is not None else 2
-        _mutation_probabilty = float(obj.get("mutation_probabilty")) \
-                    if obj.get("mutation_probabilty") is not None else 0.1
+        _mutation_probability = float(obj.get("mutation_probability")) \
+                    if obj.get("mutation_probability") is not None else 0.1
         return Mutation(mutation_type=_mutation_type, 
                         participant_bits=_participant_bits,
-                        mutation_probabilty=_mutation_probabilty)
+                        mutation_probability=_mutation_probability)
         
 @dataclass
 class Objective:
@@ -69,7 +69,7 @@ class Range:
 class Selection:
     selection_type: str
     participants: int
-    tournament_probabilty: float
+    tournament_probability: float
 
     @staticmethod
     def from_dict(obj: Any) -> 'Selection':
@@ -77,11 +77,11 @@ class Selection:
                     if obj.get("selection_type") is not None else "tournament"
         _participants = int(obj.get("participants")) \
                     if obj.get("participants") is not None else 2
-        _tournament_probabilty = float(obj.get("tournament_probabilty")) \
-                    if obj.get("tournament_probabilty") is not None else 1.0
+        _tournament_probability = float(obj.get("tournament_probability")) \
+                    if obj.get("tournament_probability") is not None else 1.0
         return Selection(selection_type=_selection_type, 
                          participants=_participants,
-                         tournament_probabilty=_tournament_probabilty )
+                         tournament_probability=_tournament_probability )
 
 @dataclass 
 class Config:
@@ -120,7 +120,7 @@ class Config:
     
     
 def __get_config_file_name(exampleDirName):
-    # print("Multi-Obective Gentic Algorithm Config Selction:")
+    # print("Multi-Objective Genetic Algorithm Config Selection:")
     # print("1. Binary Tournament Selection with Bit Flip Mutation")
     # print("2. Binary Tournament Selection with Bit Swap Mutation")
     # print("3. Roulette-Wheel Selection with Bit Flip Mutation")
@@ -154,4 +154,4 @@ def get_config(exampleName)->Config:
         
     configJSON = json.loads(configString)
     config = Config.from_dict(configJSON)
-    return config, selected_option
+    return config
