@@ -1,4 +1,4 @@
-from nsga2.core.individual import Individual
+from .individual import Individual
 
 class Problem:
 

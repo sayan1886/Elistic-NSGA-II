@@ -1,7 +1,7 @@
 
-from nsga2.example.config import config
+from example.config import config
 
-from nsga2.example import kur, sch, zdt1
+from example import kur, sch, zdt1
 
 if __name__ == "__main__":
     lang='KUR'

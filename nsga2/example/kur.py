@@ -4,8 +4,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from nsga2.core.problem import Problem
-from nsga2.core.evolution import Evolution
+from core.problem import Problem
+from core.evolution import Evolution
 
 
 def f1(x):

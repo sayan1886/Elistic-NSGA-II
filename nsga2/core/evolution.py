@@ -1,7 +1,7 @@
 from tqdm import tqdm
 
-from nsga2.core.utils import NSGA2Utils
-from nsga2.core.population import Population
+from .utils import NSGA2Utils
+from .population import Population
 
 class Evolution:
 
