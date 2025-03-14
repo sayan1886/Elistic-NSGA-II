@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # from nsga2.example.config import config
-from nsga2.core.evolution import Evolution
-from nsga2.core.problem import Problem
+from core.evolution import Evolution
+from core.problem import Problem
 
 # f1(x) = x
 def f1(x):
